@@ -33,9 +33,29 @@ end
 #Ns, number of nodes in our system
 #Output:
 #Total Number of edges present in our subgraph.
-function Ms(Nu,Mu,Ns)
-	U=G(Nu,Mu)#Generate Matrix
+function Ms(Nu::Integer,Mu::Integer,Ns::Integer)
+	U=Gr(Nu,Mu)#Generate Matrix
 	return (.5)*sum(getindex(U,[1:Ns],[1:Ns]))#Get the number of edges present in the subsystem
 end
 
+#This function returns the array of results for different Mu
+function Ms(Nu::Integer,Mu::Array{Int64,1},Ns::Integer)
+	out=zeros(length(Mu))
+	s=0
+	for i=1:length(Mu)
+		out[i]=Ms(Nu,Mu[i],Ns)
+	end
+	return out
+end
+
+#This function returns teh array fo results for different Ns
+function Ms(Nu::Integer, Mu::Integer, Ns::Array{Int64,1})
+	out=zeros(length(Ns))
+	s=0
+	U=Gr(Nu,Mu)
+	for i=1:length(Ns)
+		out[i]=(.5)*sum(getindex(U,[1:Ns[i]],[1:Ns[i]]))
+	end
+	return out
+end
 
